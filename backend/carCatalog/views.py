@@ -36,7 +36,7 @@ class CarListDetailfilter(generics.ListAPIView):
 # Car Commet display
 
 class CarCommentList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     serializer_class = CarCommentSerializer
     queryset = CarComment.objects.all()
 

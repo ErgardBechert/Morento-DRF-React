@@ -1,0 +1,30 @@
+.comment{
+    width: 100%;
+
+    &__header{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__text{
+        margin: 12px 0 0 0;
+        color: #596780;
+    }
+}
+
+.user{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    &-block{
+        
+    }
+
+    &-avatar{
+        width: 56px;
+        height: 56px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}

@@ -1,0 +1,20 @@
+.search{
+    position: relative;
+    width: 400px;
+    
+    & img{
+      position: absolute;
+      top:50%;
+      left:30px;
+      transform:translate(-50%, -50%);
+    }
+
+    & input{
+      width: 100%;
+      background: rgba(102, 121, 192, 0.2);
+      border: 1px solid rgba(195, 212, 233, 0.4);
+      border-radius: 70px;
+      padding: 8px 64px;
+      color: #fff;
+    }
+  }

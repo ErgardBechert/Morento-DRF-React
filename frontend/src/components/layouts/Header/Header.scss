@@ -1,0 +1,39 @@
+/*header*/
+.header{
+    display: flex;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    border-bottom: 1px solid rgba(195, 212, 233, 0.4);
+    padding: 30px 20px;
+  
+    &__left,  &__right{
+      display: flex;
+      align-items: center;
+    }
+  
+    &__left{
+      gap: 60px;
+    }
+  
+    &__right{
+      gap: 15px;
+    }
+  
+    &__icon{
+      border: 1px solid rgba(195, 212, 233, 0.4);
+      border-radius: 50%;
+      padding: 5px;
+    }
+  
+    &__profile{
+      width: 40px;
+      
+      object-fit: cover;
+  
+      & img{
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+}

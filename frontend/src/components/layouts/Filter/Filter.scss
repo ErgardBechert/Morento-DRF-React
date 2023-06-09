@@ -1,0 +1,40 @@
+.side-bar{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 360px;
+    border-right: 1px solid rgba(195, 212, 233, 0.4);
+    padding: 30px 20px 30px 0;
+    font-weight: 600;
+    font-size: 16px;
+    color: #596780;
+  
+    &__list{
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      & li{
+        &:first-child{
+          font-weight: 600;
+          font-size: 12px;
+          color: #90A3BF;
+          letter-spacing: -0.02em;
+          text-transform: uppercase;
+        }
+        display: flex;
+        gap: 8px;
+      }
+    }
+}
+  
+.progress-price{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  
+    &__info{
+      display: flex;
+      justify-content: space-between;
+    }
+}
