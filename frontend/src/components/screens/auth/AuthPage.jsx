@@ -4,6 +4,7 @@ import FormInput from '../../UI/input/FormInput'
 import style from './login.module.scss'
 import { useNavigate } from 'react-router-dom'
 import UserServices from '../../../services/UserServices'
+import axios from 'axios';
 
 export default function AuthPage() {
 
@@ -24,8 +25,21 @@ export default function AuthPage() {
 
 
     const login = async (user) => {
-        const response = await UserServices.login(user);
-        navigate('/')
+        try {
+            const response = await UserServices.login(user);
+            
+            if (response.status === 200) {
+                localStorage.setItem("access_token", response.data.access);
+                localStorage.setItem("refresh_token", response.data.refresh);
+                axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("access_token");
+                console.log("Токены успешно записаны в локальное хранилище");
+            }
+            
+            navigate('/');
+    
+        } catch (error) {
+            
+        }
     }
 
     const registration = async (user) => {

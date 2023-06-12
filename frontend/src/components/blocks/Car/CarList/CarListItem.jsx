@@ -1,5 +1,6 @@
 import React from 'react';
 import './CarList.scss';
+import { Link } from 'react-router-dom';
 
 function CarListItem({ car }) {
     return (
@@ -13,9 +14,9 @@ function CarListItem({ car }) {
                     <img src="/image/header/heart.svg" className="car__grade" alt=""/>
                 </div>
             </div>
-            <div claclassNamess="car__image">
+            <Link to={`/cars/${car.id}`} className="car__image"> {/* Добавляем ссылку */}
                 <img src="/image/car/Nissan.png" alt=""/>
-            </div>
+            </Link>
             <ul className="car__info">
                 <li>
                     <img src="/image/car/gas-station.svg" alt=""/>

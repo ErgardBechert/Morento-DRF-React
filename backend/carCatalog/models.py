@@ -19,7 +19,7 @@ class Car(models.Model):
     grade = models.FloatField()
 
 class CarComment(models.Model):
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         NewUser,
         on_delete=models.CASCADE,
     )
@@ -29,4 +29,4 @@ class CarComment(models.Model):
     )
     text = models.TextField(max_length=1000)
     grade = models.FloatField()
-    created_at = models.DateTimeField(default=datetime.now, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)

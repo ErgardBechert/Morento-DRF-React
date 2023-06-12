@@ -3,22 +3,26 @@ import CarComment from './CarComment/CarComment';
 import CarServices from '../../../../services/CarServices';
 import './CarCommentList.scss';
 
-export default function CarCommentList({ carId }) {
-    const [comments, setCarComments] = useState([]);
+export default function CarCommentList({ carId, comments }) {
+    const [carComments, setCarComments] = useState([]);
 
     useEffect(() => {
-      CarServices.getCarComment(carId)
-        .then((response) => {
-          setCarComments(response.data);
-        })
-        .catch((error) => console.log(error));
-    }, [carId]);
+      if (comments.length > 0) {
+        setCarComments(comments);
+      } else {
+        CarServices.getCarComment(carId)
+          .then((response) => {
+            setCarComments(response.data);
+          })
+          .catch((error) => console.log(error));
+      }
+    }, [carId, comments]);
 
   return (
-    <div className='comments'>
-      {comments.map((comment) => (
+    <div className='comments main-block'>
+      {carComments.map((comment) => (
         <CarComment key={comment.id} comment={comment} />
       ))}
     </div>
   );
-}
+} 

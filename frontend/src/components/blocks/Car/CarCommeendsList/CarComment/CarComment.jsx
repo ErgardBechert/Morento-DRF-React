@@ -9,8 +9,8 @@ export default function CarComment({ comment }) {
         <div className='user'>
           <img className='user-avatar' src='/image/test_profile.jpg' alt='User Profile' />
           <div className='user-block'>
-            <p className='user-name bold__text-lg'>{comment.user_name}Имя</p>
-            <span className='email medium__text'>{comment.email}Мейл</span>
+            <p className='user-name bold__text-lg'>{comment.user.user_name}</p>
+            <span className='email medium__text'>{comment.user.user_name}</span>
           </div>
         </div>
         <div className='comment__info'>
@@ -19,6 +19,10 @@ export default function CarComment({ comment }) {
         </div>
       </div>
       <p className='comment__text'>{comment.text}</p>
+      <div className='comment__buttons'>
+        <button>delete</button>
+        <button>update</button>
+      </div>
     </div>
   );
 }
