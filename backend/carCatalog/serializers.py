@@ -10,14 +10,14 @@ class CarSerializer(serializers.ModelSerializer):
 class CarCommentOneSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarComment
-        fields = ('text', 'grade')
+        fields = ('id', 'text', 'grade')
 
 class CarCommentSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = CarComment
-        fields = ('user', 'car_id', 'text', 'grade', 'created_at')
+        fields = ('id', 'user', 'car_id', 'text', 'grade', 'created_at')
     
     def create(self, validated_data):
         user = self.context['request'].user

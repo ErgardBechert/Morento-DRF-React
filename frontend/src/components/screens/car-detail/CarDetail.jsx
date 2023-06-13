@@ -1,10 +1,11 @@
-import { React, useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import CarServices from '../../../services/CarServices';
 import CarInfo from '../../blocks/Car/CarInfo/CarInfo';
-import CarCommentList from '../../blocks/Car/CarCommeendsList/CarCommentList';
+
 import './CarDetail.scss';
 import CarCommentForm from '../../blocks/Car/CarCommeendsList/CarCommentForm/CarComponentForm';
+import CarCommentList from '../../blocks/Car/CarCommeendsList/CarCommentList';
 
 
 export default function CarDetail() {
@@ -18,7 +19,7 @@ export default function CarDetail() {
         setCar(response.data[0]);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [id]);
 
   const fetchComments = () => {
     CarServices.getCarComment(car.id)
@@ -31,15 +32,19 @@ export default function CarDetail() {
   return (
     <div className='car-detail'>
       <div className='car-detail__header'>
-          <div>
-          <img src="/image/car/Nissan.png" alt=""/>
-          </div>
-          
-          <CarInfo car={car}/>
+        <div>
+          <img src='/image/car/Nissan.png' alt='' />
+        </div>
+
+        <CarInfo car={car} />
       </div>
 
-      <CarCommentList carId={id} comments={comments} />
-      <CarCommentForm carId={car.id} fetchComments={fetchComments} /> 
+      <CarCommentList
+        carId={id}
+        comments={comments}
+        fetchComments={fetchComments}
+      />
+      <CarCommentForm carId={car.id} fetchComments={fetchComments} isUpdating={false} />
     </div>
   );
 }

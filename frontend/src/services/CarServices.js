@@ -55,6 +55,22 @@ export default class CarServices {
         return response;
         
     }
+
+    static async patchEditCarComment( { id, text, grade } ) {
+        const response = await axiosInstance.patch(`${baseURL}comment/edit/${id}/`,{
+            text,
+            grade,
+        } 
+        );
+        return response;
+        
+    }
+
+    static async deleteCarComment(id) {
+        const response = await axiosInstance.delete(`${baseURL}comment/delete/${id}/`);
+        return response;
+        
+    }
 }
 
 

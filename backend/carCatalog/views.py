@@ -19,6 +19,7 @@ class CarList(generics.ListAPIView):
     queryset = Car.objects.all()
     
 class CarDetail(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = CarSerializer
 
     def get_object(self, queryset=None, **kwargs):
@@ -68,11 +69,12 @@ class CreateCarComment(CarCommentMixin, generics.CreateAPIView):
 
 class EditCarComment(CarCommentMixin, generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = CarCommentOneSerializer
     queryset = CarComment.objects.all()
 
 class DeleteCarComment(CarCommentMixin, generics.RetrieveDestroyAPIView):
-    pass
+    permission_classes = [IsAuthenticated]
+    serializer_class = CarCommentOneSerializer
+    queryset = CarComment.objects.all()
 
 # Admin Car
 

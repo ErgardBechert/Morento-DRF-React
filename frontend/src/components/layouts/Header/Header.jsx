@@ -29,17 +29,20 @@ export default function Header() {
         </form>
       </div>
       <div className="header__right">
-        <a href="#" className="header__icon">
+        {/* <a href="#" className="header__icon">
           <img src="/image/header/heart.svg" alt="" />
-        </a>
-        <a href="#" className="header__icon">
+        </a> */}
+        {/* <a href="#" className="header__icon">
           <img src="/image/header/notification.svg" alt="" />
-        </a>
+        </a> */}
         <a href="#" className="header__icon">
           <img src="/image/header/setting-2.svg" alt="" />
         </a>
         <a href="#" className="header__profile">
           <img src="/image/test_profile.jpg" alt="" />
+        </a>
+        <a href="#" className="header__logout">
+          <img src="/image/header/logout.svg" alt="" />
         </a>
       </div>
     </header>
