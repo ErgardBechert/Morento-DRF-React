@@ -4,18 +4,21 @@
   Зайти в удобный редактор кода и открыть термин (ctrl + shift + ё)
   ```
   git clone https://github.com/ErgardBechert/Morento-DRF-React
-    ```
+   ```
 - Создайте виртуальное окружение, в терминале перейдите по пути "cd/backend" и вставьте эту команду
+
     ```.bash
     python -m venv venv
     ```
 - Активируйте venv
-  - на Windows ```
-               venv/scripts/activate
-               ```
-  - на Linux ```
-             venv/bin/activate
-             ```
+  - на Windows
+  ```
+  venv/scripts/activate
+  ```
+  - на Linux 
+  ```
+  venv/bin/activate
+  ```
   - Установите нужные библиотеки
   ```.bash
   pip install -r requirements.txt
