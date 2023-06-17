@@ -6,11 +6,13 @@ import App from './App/App';
 import Header from './components/layouts/Header/Header';
 import Footer from './components/layouts/Footer/Footer';
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <BrowserRouter >
     <Header />
-    <App /> 
+      <App /> 
     <Footer />
   </BrowserRouter>
 

@@ -6,10 +6,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     user_name = serializers.CharField(required=True)
     password = serializers.CharField(min_length=8, write_only=True)
-
     class Meta:
         model = NewUser
-        fields = ('id', 'email', 'user_name', 'password')
+        fields = ('id', 'avatar', 'email', 'user_name', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -20,3 +19,4 @@ class CustomUserSerializer(serializers.ModelSerializer):
         instance.user = self.context['request'].user
         instance.save()
         return instance
+    

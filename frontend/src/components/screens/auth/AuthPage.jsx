@@ -1,108 +1,152 @@
-import React, { useEffect, useState } from 'react'
-import MainButton from '../../UI/button/mainButton/MainButton'
-import FormInput from '../../UI/input/FormInput'
-import style from './login.module.scss'
-import { useNavigate } from 'react-router-dom'
-import UserServices from '../../../services/UserServices'
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import MainButton from '../../UI/button/mainButton/MainButton';
+import FormInput from '../../UI/input/FormInput';
+import style from './login.module.scss';
+import { useNavigate } from 'react-router-dom';
+import UserServices from '../../../services/UserServices';
 
-export default function AuthPage() {
+const AuthPage = () => {
+  const navigate = useNavigate();
+  const [formState, setFormState] = useState(true);
+  const [user, setUser] = useState({ email: '', user_name: '', password: '' });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [validationErrors, setValidationErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
 
-    const navigate = useNavigate()
+  const switchLogin = () => {
+    setFormState(true);
+    setErrorMessage('');
+    setValidationErrors({});
+    setSuccessMessage('');
+  };
 
-    const [ formState, setFormState ] = useState(true)
+  const switchReg = () => {
+    setFormState(false);
+    setErrorMessage('');
+    setValidationErrors({});
+    setSuccessMessage('');
+  };
 
-    const switchLodin = () => {
-        setFormState(true)
+  const login = async (user) => {
+    try {
+      setErrorMessage('');
+      await UserServices.login(user, setErrorMessage, setSuccessMessage);
+      setTimeout(() => {
+        navigate('/');
+      }, 2000); // Задержка в 2 секунды (2000 миллисекунд)
+    } catch (error) {
+      console.error('Вход не удался:', error);
     }
-    const switchReg = () => {
-        setFormState(false)
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const registration = async (user) => {
+    try {
+      setErrorMessage('');
+      setValidationErrors({});
+      setSuccessMessage('');
+
+      if (!validateEmail(user.email)) {
+        setValidationErrors((prevErrors) => ({
+          ...prevErrors,
+          email: 'Введите действительный адрес электронной почты',
+        }));
+        return;
+      }
+
+      if (!validatePassword(user.password)) {
+        setValidationErrors((prevErrors) => ({
+          ...prevErrors,
+          password: 'Пароль должен содержать не менее 8 символов и хотя бы 1 специальный символ',
+        }));
+        return;
+      }
+
+      await UserServices.register(user, setErrorMessage, setSuccessMessage);
+      setTimeout(() => {
+        navigate('/');
+      }, 2000); // 
+    } catch (error) {
+      console.error('Регистрация не удалась:', error);
     }
+  };
 
-    useEffect(() => {
-        
-    }, [])
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-
-    const login = async (user) => {
-        try {
-            const response = await UserServices.login(user);
-            
-            if (response.status === 200) {
-                localStorage.setItem("access_token", response.data.access);
-                localStorage.setItem("refresh_token", response.data.refresh);
-                axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("access_token");
-                console.log("Токены успешно записаны в локальное хранилище");
-            }
-            
-            navigate('/');
-    
-        } catch (error) {
-            
-        }
+    if (formState) {
+      login(user);
+    } else {
+      registration(user);
     }
+  };
 
-    const registration = async (user) => {
-        const data = await UserServices.register(user)
-    }
-
-    const [ user, setUser ] = useState({email: '',user_name: '', password: ''})
+  useEffect(() => {
+    setValidationErrors({});
+    setSuccessMessage('');
+  }, [formState]);
 
   return (
-    <div className={style.login}>
-        <h1>{formState?'Вход':'Регистрация'}</h1>
-        {formState?
-        <div className={style.loginForm}>
-            <FormInput 
-                placeholder={'email'}
-                onChangeFunc={(e) => setUser({...user, email: e.target.value})}
-                value={user.email}
+    <div className="auth-form">
+      <h1>{formState ? 'Вход' : 'Регистрация'}</h1>
+      <form className="auth-form" onSubmit={handleSubmit}>
+        {formState ? (
+          <div className={style.loginForm}>
+            <FormInput
+              placeholder={'email'}
+              onChangeFunc={(e) => setUser({ ...user, email: e.target.value })}
+              value={user.email}
             />
-            <FormInput 
-                placeholder={'пароль'}
-                onChangeFunc={(e) => setUser({...user, password: e.target.value})}
-                value={user.password}
+            <FormInput
+              placeholder={'пароль'}
+              onChangeFunc={(e) => setUser({ ...user, password: e.target.value })}
+              value={user.password}
             />
+          </div>
+        ) : (
+          <div>
+            <FormInput
+              placeholder={'придумайте email'}
+              onChangeFunc={(e) => setUser({ ...user, email: e.target.value })}
+              value={user.email}
+            />
+            <FormInput
+              placeholder={'придумайте логин'}
+              onChangeFunc={(e) => setUser({ ...user, user_name: e.target.value })}
+              value={user.user_name}
+            />
+            <FormInput
+              placeholder={'придумайте пароль'}
+              onChangeFunc={(e) => setUser({ ...user, password: e.target.value })}
+              value={user.password}
+            />
+          </div>
+        )}
+        <div className="buttons">
+          <MainButton onClickFunk={switchLogin}>Вход</MainButton>
+          <MainButton onClickFunk={switchReg}>Регистрация</MainButton>
         </div>
-        :
-        <div className={style.loginForm}>
-     
-            <FormInput 
-                placeholder={'придумайте email'}
-                onChangeFunc={(e) => setUser({...user, email: e.target.value})}
-                value={user.email}
-            />
-            <FormInput 
-                placeholder={'придумайте логин'}
-                onChangeFunc={(e) => setUser({...user, user_name: e.target.value})}
-                value={user.user_name}
-            />
-            <FormInput 
-                placeholder={'придумайте пароль'}
-                onChangeFunc={(e) => setUser({...user, password: e.target.value})}
-                value={user.password}
-            />
-        </div>
-        }
-        <div className={style.switchBlock}>
-            <MainButton onClickFunk={switchLodin}>Вход</MainButton>
-            <MainButton onClickFunk={switchReg}>Регистрация</MainButton>
-        </div>
-        {
-            formState ?
-                <MainButton onClickFunk={() => login(user)}>Войти</MainButton>:
-                <MainButton onClickFunk={() => registration(user)}>Создать</MainButton>
-        }
-        {/* {
-            formState ?
-                status === 'rejected' && <p className={style.message}>Неверные данные</p>:
-                (
-                    (user.password !== user.repPassword && user.password && user.repPassword) ? <p className={style.message}>пароль не совпадают</p>:
-                    status === 'rejected' && <p className={style.message}>Имя занято</p>
-                )
-                
-        } */}
-    
+        {formState ? (
+          <MainButton type="submit">Войти</MainButton>
+        ) : (
+          <MainButton type="submit">Создать</MainButton>
+        )}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {validationErrors.email && <p className="error-message">{validationErrors.email}</p>}
+        {validationErrors.password && <p className="error-message">{validationErrors.password}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+      </form>
     </div>
-  )
-}
+  );
+};
+
+export default AuthPage;

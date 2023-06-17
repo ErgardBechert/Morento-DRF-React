@@ -198,3 +198,98 @@ select {
   }
 
 }
+
+.button{
+  width: 100% !important;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.button-primary{
+  background: #3563E9;
+}
+
+.button-active{
+  background: #658DF1;
+}
+
+.button-red{
+  background: #E94435;
+}
+
+.auth-form{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 500px;
+  justify-content: center;
+}
+
+.buttons{
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  .button{
+    width: 100% !important;
+  }
+}
+
+.auth__container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+textarea{
+  width: 100%;
+  background: rgba(195, 212, 233, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  color: #90A3BF;
+}
+
+.car-comment{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.error-message {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: red;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  animation: fadeOut 5s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.success-message{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: green;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  animation: fadeOut 5s forwards;
+}
+

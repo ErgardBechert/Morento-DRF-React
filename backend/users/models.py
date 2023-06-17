@@ -33,9 +33,11 @@ class CustomAccountManager(BaseUserManager):
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
 
+    avatar = models.ImageField(_('avatar'), upload_to='avatars/', default='avatars/default_avatar.png')
     id = models.AutoField(primary_key=True)  # Добавлено поле id
     email = models.EmailField(_('email address'), unique=True)
     user_name = models.CharField(max_length=150, unique=True)
+
     first_name = models.CharField(max_length=150, blank=True)
     start_date = models.DateTimeField(default=timezone.now)
     about = models.TextField(_('about'), max_length=500, blank=True)

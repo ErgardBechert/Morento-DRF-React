@@ -4,7 +4,7 @@ from users.models import NewUser
 from datetime import datetime
 
 class Car(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to='cars/')
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.FloatField()

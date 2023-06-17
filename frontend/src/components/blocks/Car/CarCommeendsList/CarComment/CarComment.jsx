@@ -52,7 +52,7 @@ export default function CarComment({ comment, onUpdateComment, onDeleteComment})
     <div className="comment">
       <div className="comment__header">
         <div className="user">
-          <img className="user-avatar" src="/image/test_profile.jpg" alt="User Profile" />
+          <img className="user-avatar" src={comment.user.avatar} alt="User Profile" />
           <div className="user-block">
             <p className="user-name bold__text-lg">{comment.user.user_name}</p>
             <span className="email medium__text">{comment.user.user_name}</span>
@@ -77,14 +77,14 @@ export default function CarComment({ comment, onUpdateComment, onDeleteComment})
       <div className="comment__buttons">
         {isCurrentUserComment && isUpdating ? (
           <>
-            <button onClick={handleUpdate}>save</button>
-            <button onClick={handleCancelUpdate}>cancel</button>
+            <button className='button button-primary' onClick={handleUpdate}>Сохранить</button>
+            <button className='button button-active' onClick={handleCancelUpdate}>Отменить</button>
           </>
         ) : (
-          isCurrentUserComment && <button onClick={handleUpdate}>update</button>
+          isCurrentUserComment && <button className='button button-primary' onClick={handleUpdate}>Отредактировать</button>
         )}
         {isCurrentUserComment && (
-          <button onClick={() => onDeleteComment(comment.id)}>delete</button>
+          <button className='button button-red' onClick={() => onDeleteComment(comment.id)}>Удалить</button>
         )}
       </div>
     </div>

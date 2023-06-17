@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
-from .serializers import CustomUserSerializer
+from rest_framework.generics import RetrieveAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny
 import jwt
-
+from .serializers import CustomUserSerializer
+from .models import NewUser
 class CustomUserCreate(APIView):
     permission_classes = [AllowAny]
 
@@ -21,12 +22,16 @@ class CustomUserCreate(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class BlacklistTokenView(APIView):
+class BlacklistTokenUpdateView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = ()
+
     def post(self, request):
         try:
-            refresh_token = request.data['refresh_token']
+            refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
             token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -55,26 +60,24 @@ def csrf(request):
 def ping(request):
     return JsonResponse({'result': 'OK'})
 
-# @api_view()
-# def get_user_id(request):
-#     # Get the JWT token from the Authorization header
-#     auth_header = request.META.get('HTTP_AUTHORIZATION')
-#     if auth_header and auth_header.startswith('Bearer '):
-#         # Extract the token from the Authorization header
-#         jwt_token = auth_header.split(' ')[1]
-#     else:
-#         return Response({'error': 'Invalid token'}, status=401)
+class UserDataView(APIView):
+    permission_classes = [IsAuthenticated]
 
-#     try:
-#         # Decode the JWT token to retrieve the payload
-#         decoded_payload = jwt.decode(jwt_token, algorithms=["HS256"])
+    def get(self, request):
+        user = request.user
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
 
-#         # Extract the user ID from the payload
-#         user_id = decoded_payload['user_id']
-
-#         # Set the renderer class for this view
-#         get_user_id.renderer_classes = [JSONRenderer]
-
-#         return Response({'user_id': user_id})
-#     except jwt.InvalidTokenError:
-#         return Response({'error': 'Invalid token'}, status=401)
+from django.conf import settings
+from django.http import HttpResponseNotFound, FileResponse
+import os
+def avatar_view(request, filename):
+    """
+    View function to return the avatar image file.
+    """
+    location = os.path.join(settings.MEDIA_ROOT, 'avatars', filename)
+    if os.path.exists(location):
+        response = FileResponse(open(location, 'rb'), content_type='image/jpeg')
+        return response
+    else:
+        return HttpResponseNotFound("File not found")

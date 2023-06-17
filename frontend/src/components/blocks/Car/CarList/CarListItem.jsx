@@ -1,8 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './CarList.scss';
 import { Link } from 'react-router-dom';
 
 function CarListItem({ car }) {
+    const [isHeartActive, setIsHeartActive] = useState(false);
+
+    const toggleHeart = () => {
+      setIsHeartActive(!isHeartActive);
+    };
+
+    const [isRented, setIsRented] = useState(false);
+
+    const handleRentClick = () => {
+      setIsRented(true);
+    };
     return (
         <div className="car">
             <div className="car__header">
@@ -11,11 +22,16 @@ function CarListItem({ car }) {
                     <div className="car__type bold__text">{car.type}</div>
                 </div>
                 <div className="car__right">
-                    <img src="/image/header/heart.svg" className="car__grade" alt=""/>
+                <img
+                    src={isHeartActive ? "/image/heart-active.svg" : "/image/header/heart.svg"}
+                    className="car__grade"
+                    alt=""
+                    onClick={toggleHeart}
+                />
                 </div>
             </div>
-            <Link to={`/cars/${car.id}`} className="car__image"> {/* Добавляем ссылку */}
-                <img src="/image/car/Nissan.png" alt=""/>
+            <Link to={`/cars/${car.id}`} className="car__image">
+                <img src='/image/car/Nissan.png' alt='' />
             </Link>
             <ul className="car__info">
                 <li>
@@ -33,7 +49,13 @@ function CarListItem({ car }) {
             </ul>
             <div className="car__footer">
                 <div className="price bold__text"><span className="bold__text-lg">{car.price}</span>/ в день</div>
-                <a href="#" className="button button-primary">Арендовать</a>
+                {isRented ? (
+                    <span className="button button-active">Арендовано</span>
+                    ) : (
+                    <button className="button button-primary" onClick={handleRentClick}>
+                        Арендовать
+                    </button>
+                    )}
             </div>
         </div>
     )
